@@ -1,99 +1,82 @@
-import {App, Editor, MarkdownView, Modal, Notice, Plugin} from 'obsidian';
-import {DEFAULT_SETTINGS, MyPluginSettings, SampleSettingTab} from "./settings";
+import { Plugin } from "obsidian";
+import { FocusLensSettingTab } from "./settings";
+import type { FocusLensSettings } from "./types";
+import { DEFAULT_SETTINGS } from "./constants";
+import { registerUIAndCommands } from "./commands";
+import { FocusRenderer } from "./focus-renderer";
+import { ZenModeManager } from "./zen-mode";
+import { setFocusEnabled } from "./actions";
 
-// Remember to rename these classes and interfaces!
+export default class FocusLensPlugin extends Plugin {
+	settings: FocusLensSettings;
+	focusRenderer: FocusRenderer;
+	zenMode: ZenModeManager;
 
-export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
-
+	/**
+	 * Runs when the plugin is activated
+	 * Sets up the user interface, commands, and event listeners
+	 */
 	async onload() {
 		await this.loadSettings();
 
-		// This creates an icon in the left ribbon.
-		this.addRibbonIcon('dice', 'Sample', (evt: MouseEvent) => {
-			// Called when the user clicks the icon.
-			new Notice('This is a notice!');
-		});
+		this.zenMode = new ZenModeManager();
+		this.focusRenderer = new FocusRenderer(this);
 
-		// This adds a status bar item to the bottom of the app. Does not work on mobile apps.
-		const statusBarItemEl = this.addStatusBarItem();
-		statusBarItemEl.setText('Status bar text');
+		this.zenMode.ensureZenToggleButton();
+		this.zenMode.syncZenButtonState();
 
-		// This adds a simple command that can be triggered anywhere
-		this.addCommand({
-			id: 'open-modal-simple',
-			name: 'Open modal (simple)',
-			callback: () => {
-				new SampleModal(this.app).open();
-			}
-		});
-		// This adds an editor command that can perform some operation on the current editor instance
-		this.addCommand({
-			id: 'replace-selected',
-			name: 'Replace selected content',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
-				editor.replaceSelection('Sample editor command');
-			}
-		});
-		// This adds a complex command that can check whether the current state of the app allows execution of the command
-		this.addCommand({
-			id: 'open-modal-complex',
-			name: 'Open modal (complex)',
-			checkCallback: (checking: boolean) => {
-				// Conditions to check
-				const markdownView = this.app.workspace.getActiveViewOfType(MarkdownView);
-				if (markdownView) {
-					// If checking is true, we're simply "checking" if the command can be run.
-					// If checking is false, then we want to actually perform the operation.
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
+		// Register user interface elements and Command Palette commands
+		registerUIAndCommands(this);
 
-					// This command will only show up in Command Palette when the check function returns true
-					return true;
-				}
-				return false;
-			}
-		});
+		this.addSettingTab(new FocusLensSettingTab(this.app, this));
 
-		// This adds a settings tab so the user can configure various aspects of the plugin
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+		// Use Obsidian's registerDomEvent to ensure cleanup on unload
+		this.registerDomEvent(window, "resize", () =>
+			this.focusRenderer.onWindowChange(),
+		);
 
-		// If the plugin hooks up any global DOM events (on parts of the app that doesn't belong to this plugin)
-		// Using this function will automatically remove the event listener when this plugin is disabled.
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			new Notice("Click");
-		});
+		// Observe workspace to detect active view changes
+		this.registerEvent(
+			this.app.workspace.on("active-leaf-change", () =>
+				this.focusRenderer.checkActiveView(),
+			),
+		);
+		this.registerEvent(
+			this.app.workspace.on("layout-change", () =>
+				this.focusRenderer.checkActiveView(),
+			),
+		);
 
-		// When registering intervals, this function will automatically clear the interval when the plugin is disabled.
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
+		this.focusRenderer.checkActiveView();
 
+		setFocusEnabled(this, this.settings.enabled);
+		this.focusRenderer.updateCssVars();
 	}
 
+	/**
+	 * Runs when the plugin is disabled
+	 * Cleans up all DOM modifications and event listeners
+	 */
 	onunload() {
+		this.focusRenderer.detachActiveView();
+		this.zenMode.cleanup();
 	}
 
+	/**
+	 * Loads the plugin settings from Obsidian's data store
+	 */
 	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData() as Partial<MyPluginSettings>);
+		this.settings = Object.assign(
+			{},
+			DEFAULT_SETTINGS,
+			(await this.loadData()) as Partial<FocusLensSettings>,
+		);
 	}
 
+	/**
+	 * Saves the current plugin settings to Obsidian's data store
+	 */
 	async saveSettings() {
 		await this.saveData(this.settings);
-	}
-}
-
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		let {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		const {contentEl} = this;
-		contentEl.empty();
 	}
 }

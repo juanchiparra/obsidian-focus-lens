@@ -1,8 +1,63 @@
-/*
+:root {
+	--focus-band: 22vh;
+}
 
-This CSS file will be included with your plugin, and
-available in the app when your plugin is enabled.
+.obsidian-focus-zen .workspace-ribbon.mod-left,
+.obsidian-focus-zen .workspace-split.mod-left-split,
+.obsidian-focus-zen .workspace-split.mod-right-split,
+.obsidian-focus-zen .status-bar,
+.obsidian-focus-zen .workspace-tab-header-container,
+.obsidian-focus-zen .view-header,
+.obsidian-focus-zen .sidebar-toggle-button {
+	display: none;
+}
 
-If your plugin does not need CSS, delete this file.
+.obsidian-focus-zen .workspace-split.mod-left-split,
+.obsidian-focus-zen .workspace-split.mod-right-split,
+.obsidian-focus-zen .workspace-ribbon.mod-left {
+	width: 0;
+	min-width: 0;
+	max-width: 0;
+	overflow: hidden;
+}
 
-*/
+.obsidian-focus-zen .mod-root .workspace-tabs .workspace-tab-header-container {
+	display: none;
+}
+
+.obsidian-focus-zen .workspace-leaf-content {
+	padding-top: 0;
+}
+
+.obsidian-focus-zen-toggle {
+	position: fixed;
+	right: 14px;
+	bottom: 14px;
+	z-index: 100;
+	width: 28px;
+	height: 28px;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: 50%;
+	background: color-mix(in srgb, var(--background-primary) 55%, transparent);
+	color: var(--text-muted);
+	opacity: 0;
+	pointer-events: none;
+	backdrop-filter: blur(4px);
+	transition: opacity 120ms ease;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 14px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.obsidian-focus-zen-toggle:hover {
+	color: var(--text-normal);
+	opacity: 0.9;
+}
+
+.obsidian-focus-zen .obsidian-focus-zen-toggle {
+	opacity: 0.35;
+	pointer-events: auto;
+}

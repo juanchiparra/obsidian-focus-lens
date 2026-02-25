@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "focus-lens",
+	"name": "Focus Lens",
 	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
+	"minAppVersion": "1.0.0",
+	"description": "A distraction-free reading and writing experience for Obsidian",
+	"author": "Juanchi Parra",
+	"authorUrl": "https://github.com/juanchiparra",
+	"fundingUrl": "https://ko-fi.com/juanchiparra",
 	"isDesktopOnly": false
 }
