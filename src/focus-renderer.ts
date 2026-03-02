@@ -179,8 +179,7 @@ export class FocusRenderer {
 		// Scroll listener
 		const scrollEl =
 			this.activeMode === "editor"
-				? (view.querySelector(".cm-scroller") as HTMLElement | null) ||
-					view
+				? view.querySelector<HTMLElement>(".cm-scroller") || view
 				: view;
 		this.activeScrollEl = scrollEl;
 		const onScroll = () => {
