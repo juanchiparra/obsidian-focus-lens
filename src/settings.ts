@@ -31,11 +31,9 @@ export class FocusLensSettingTab extends PluginSettingTab {
 			.setName("Enable focus")
 			.setDesc("Toggle the focus overlay on/off")
 			.addToggle((toggle: ToggleComponent) =>
-				toggle
-					.setValue(this.plugin.settings.enabled)
-					.onChange(async (v) => {
-						setFocusEnabled(this.plugin, v);
-					}),
+				toggle.setValue(this.plugin.settings.enabled).onChange((v) => {
+					setFocusEnabled(this.plugin, v);
+				}),
 			);
 
 		// Slider to adjust the height of the clear, focused area
@@ -48,7 +46,7 @@ export class FocusLensSettingTab extends PluginSettingTab {
 				s
 					.setLimits(6, 45, 1)
 					.setValue(this.plugin.settings.focusBandVh)
-					.onChange(async (v) => {
+					.onChange((v) => {
 						this.plugin.settings.focusBandVh = v;
 						this.saveSettingsDebounced();
 						this.plugin.focusRenderer.updateCssVars();
@@ -69,7 +67,7 @@ export class FocusLensSettingTab extends PluginSettingTab {
 				s
 					.setLimits(1.0, 3.5, 0.1)
 					.setValue(this.plugin.settings.focusIntensity)
-					.onChange(async (v) => {
+					.onChange((v) => {
 						this.plugin.settings.focusIntensity = v;
 						this.saveSettingsDebounced();
 						intensitySetting.setDesc(
