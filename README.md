@@ -12,28 +12,6 @@ A distraction-free reading and writing experience for Obsidian. Focus Lens highl
 - **Customizable effects**: Choose between a smooth blur effect or a simple opacity dimming for the unfocused text
 - **Zen Mode**: Toggle a completely distraction-free user interface (hides sidebars and ribbons) with a single command
 
-## Installation (Beta)
-
-_Note: The plugin is currently in beta and not yet available in the community store or releases page._
-
-To test it locally:
-
-1. Clone or download this repository
-2. Run `pnpm install` and `pnpm run build`
-3. Copy `main.js`, `manifest.json`, and `styles.css` to your vault's `.obsidian/plugins/obsidian-focus-lens/` folder
-4. Reload Obsidian and enable **Focus Lens** in **Settings → Community plugins**
-
-## Pre-Release Checklist
-
-Pending tasks before the first official release:
-
-- [ ] Test across different operating systems and devices (desktop/mobile)
-- [ ] Verify compatibility with popular themes and other plugins
-- [ ] Hunt for edge-case bugs in Live Preview and Reading Mode
-- [ ] Monitor CPU/Performance impact during fast scrolling or in very large notes
-- [ ] Add screenshots or a GIF demonstrating the plugin in action
-- [ ] Finalize versioning and release assets
-
 ## Usage
 
 - Use the **eye icon** in the left ribbon to quickly toggle the focus overlay on or off
