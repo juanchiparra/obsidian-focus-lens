@@ -78,7 +78,7 @@ export class FocusRenderer {
 	 * Updates CSS variables based on current settings
 	 */
 	public updateCssVars() {
-		document.documentElement.style.setProperty(
+		activeDocument.documentElement.style.setProperty(
 			"--focus-band",
 			`${this.plugin.settings.focusBandVh}vh`,
 		);
@@ -324,7 +324,7 @@ export class FocusRenderer {
 		const els = this.activeEls;
 
 		// Compute band in pixels
-		const rootStyle = getComputedStyle(document.documentElement);
+		const rootStyle = getComputedStyle(activeDocument.documentElement);
 		const bandVal =
 			rootStyle.getPropertyValue("--focus-band").trim() ||
 			`${this.plugin.settings.focusBandVh}vh`;

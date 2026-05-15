@@ -79,12 +79,14 @@ export function setFocusEnabled(plugin: FocusLensPlugin, enabled: boolean) {
 	}
 	plugin.zenMode.cleanup();
 
-	document.querySelectorAll(".cm-line, .cm-embed-block").forEach((n) => {
+	activeDocument
+		.querySelectorAll(".cm-line, .cm-embed-block")
+		.forEach((n) => {
+			clearLineStyles(n as HTMLElement);
+		});
+	activeDocument.querySelectorAll(FOCUS_SELECTOR).forEach((n) => {
 		clearLineStyles(n as HTMLElement);
 	});
-	document.querySelectorAll(FOCUS_SELECTOR).forEach((n) => {
-		clearLineStyles(n as HTMLElement);
-	});
-	document.documentElement.style.removeProperty("--focus-band");
+	activeDocument.documentElement.style.removeProperty("--focus-band");
 	void plugin.saveSettings();
 }

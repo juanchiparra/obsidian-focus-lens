@@ -9,19 +9,19 @@ export class ZenModeManager {
 	 */
 	public ensureZenToggleButton() {
 		if (this.zenToggleBtnEl?.isConnected) return;
-		const btn = document.createElement("button");
+		const btn = activeDocument.createEl("button");
 		btn.type = "button";
 		btn.className = "obsidian-focus-zen-toggle";
 		btn.setAttribute("aria-label", "Exit zen mode");
 		btn.setAttribute("title", "Exit zen mode");
 		btn.textContent = "×";
 		btn.addEventListener("click", () => {
-			if (document.body.classList.contains("obsidian-focus-zen")) {
+			if (activeDocument.body.classList.contains("obsidian-focus-zen")) {
 				this.toggleZenMode();
 				new Notice("Zen mode disabled");
 			}
 		});
-		document.body.appendChild(btn);
+		activeDocument.body.appendChild(btn);
 		this.zenToggleBtnEl = btn;
 	}
 
@@ -30,7 +30,8 @@ export class ZenModeManager {
 	 */
 	public syncZenButtonState() {
 		if (!this.zenToggleBtnEl) return;
-		const zenOn = document.body.classList.contains("obsidian-focus-zen");
+		const zenOn =
+			activeDocument.body.classList.contains("obsidian-focus-zen");
 		this.zenToggleBtnEl.setAttribute(
 			"aria-hidden",
 			zenOn ? "false" : "true",
@@ -42,7 +43,7 @@ export class ZenModeManager {
 	 */
 	public toggleZenMode() {
 		this.ensureZenToggleButton();
-		document.body.classList.toggle("obsidian-focus-zen");
+		activeDocument.body.classList.toggle("obsidian-focus-zen");
 		this.syncZenButtonState();
 	}
 
@@ -50,7 +51,7 @@ export class ZenModeManager {
 	 * Cleans up the Zen mode toggle button and CSS class
 	 */
 	public cleanup() {
-		document.body.classList.remove("obsidian-focus-zen");
+		activeDocument.body.classList.remove("obsidian-focus-zen");
 		if (this.zenToggleBtnEl) {
 			this.zenToggleBtnEl.remove();
 			this.zenToggleBtnEl = null;

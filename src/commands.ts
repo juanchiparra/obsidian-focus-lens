@@ -18,7 +18,7 @@ export function registerUIAndCommands(plugin: FocusLensPlugin) {
 	plugin.addRibbonIcon("maximize", "Toggle zen mode", () => {
 		plugin.zenMode.toggleZenMode();
 		new Notice(
-			document.body.classList.contains("obsidian-focus-zen")
+			activeDocument.body.classList.contains("obsidian-focus-zen")
 				? "Zen mode enabled"
 				: "Zen mode disabled",
 		);
@@ -43,7 +43,7 @@ export function registerUIAndCommands(plugin: FocusLensPlugin) {
 		callback: () => {
 			plugin.zenMode.toggleZenMode();
 			new Notice(
-				document.body.classList.contains("obsidian-focus-zen")
+				activeDocument.body.classList.contains("obsidian-focus-zen")
 					? "Zen mode enabled"
 					: "Zen mode disabled",
 			);
