@@ -1,6 +1,6 @@
 {
 	"name": "obsidian-focuslens",
-	"version": "1.0.0",
+	"version": "1.0.2",
 	"description": "A distraction-free reading and writing experience that highlights the active paragraph and fades the rest.",
 	"main": "main.js",
 	"type": "module",
