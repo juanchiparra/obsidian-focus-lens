@@ -1,7 +1,7 @@
 {
 	"id": "focus-lens",
 	"name": "Focus Lens",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"minAppVersion": "1.11.4",
 	"description": "A distraction-free reading and writing experience.",
 	"author": "Juanchi Parra",
