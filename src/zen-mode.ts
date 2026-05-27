@@ -9,7 +9,7 @@ export class ZenModeManager {
 	 */
 	public ensureZenToggleButton() {
 		if (this.zenToggleBtnEl?.isConnected) return;
-		const btn = activeDocument.createEl("button");
+		const btn = activeDocument.createElement("button");
 		btn.type = "button";
 		btn.className = "obsidian-focus-zen-toggle";
 		btn.setAttribute("aria-label", "Exit zen mode");
