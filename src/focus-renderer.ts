@@ -293,7 +293,7 @@ export class FocusRenderer {
 		if (!this.plugin.settings.enabled) return;
 		if (!this.ticking) {
 			this.ticking = true;
-			requestAnimationFrame(() => this.update());
+			window.requestAnimationFrame(() => this.update());
 		}
 	}
 
